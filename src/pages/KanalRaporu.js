@@ -5,8 +5,6 @@ import { fetchSalesData, groupByChannel } from '../services/sheetsService';
 import './RaporSayfasi.css';
 
 const KanalRaporu = () => {
-  // eslint-disable-next-line no-unused-vars
-  const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [groupedData, setGroupedData] = useState({});
   const [selectedChannel, setSelectedChannel] = useState('Tümü');
@@ -22,7 +20,6 @@ const KanalRaporu = () => {
     setLoading(true);
     try {
       const salesData = await fetchSalesData();
-      setData(salesData);
       const grouped = groupByChannel(salesData);
       setGroupedData(grouped);
     } finally {
@@ -138,20 +135,26 @@ const KanalRaporu = () => {
                 <Link to="/" className="nav-menu-item" onClick={() => setShowNavMenu(false)}>
                   🏠 Ana Sayfa
                 </Link>
-                <Link to="/marka" className="nav-menu-item" onClick={() => setShowNavMenu(false)}>
+                <Link to="/stok" className="nav-menu-item" onClick={() => setShowNavMenu(false)}>
+                  📊 Stok Raporu
+                </Link>
+                <Link to="/satis/marka" className="nav-menu-item" onClick={() => setShowNavMenu(false)}>
                   🏷️ Marka Bazlı
                 </Link>
-                <Link to="/kategori" className="nav-menu-item" onClick={() => setShowNavMenu(false)}>
+                <Link to="/satis/kategori" className="nav-menu-item" onClick={() => setShowNavMenu(false)}>
                   📦 Kategori Bazlı
                 </Link>
-                <Link to="/urun" className="nav-menu-item" onClick={() => setShowNavMenu(false)}>
+                <Link to="/satis/urun" className="nav-menu-item" onClick={() => setShowNavMenu(false)}>
                   🛍️ Ürün Bazlı
                 </Link>
-                <Link to="/musteri" className="nav-menu-item" onClick={() => setShowNavMenu(false)}>
+                <Link to="/satis/musteri" className="nav-menu-item" onClick={() => setShowNavMenu(false)}>
                   👥 Müşteri Bazlı
                 </Link>
-                <Link to="/kanal" className="nav-menu-item active" onClick={() => setShowNavMenu(false)}>
+                <Link to="/satis/kanal" className="nav-menu-item active" onClick={() => setShowNavMenu(false)}>
                   🏪 Satış Kanalı
+                </Link>
+                <Link to="/alis/marka" className="nav-menu-item" onClick={() => setShowNavMenu(false)}>
+                  🛒 Alış Raporları
                 </Link>
               </div>
             )}

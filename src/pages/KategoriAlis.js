@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, PieChart, Pie, Cell, LineChart, Line } from 'recharts';
-import { fetchSalesData, groupByProduct } from '../services/sheetsService';
+import { fetchSalesData, groupByCategory } from '../services/sheetsService';
 import './RaporSayfasi.css';
 
-const UrunRaporu = () => {
-  const [data, setData] = useState([]);
+const KategoriAlis = () => {
   const [loading, setLoading] = useState(true);
   const [groupedData, setGroupedData] = useState({});
-  const [selectedProduct, setSelectedProduct] = useState('Tümü');
+  const [selectedCategory, setSelectedCategory] = useState('Tümü');
   const [sortColumn, setSortColumn] = useState('toplamAdet');
   const [sortDirection, setSortDirection] = useState('desc');
   const [showNavMenu, setShowNavMenu] = useState(false);
@@ -21,8 +20,7 @@ const UrunRaporu = () => {
     setLoading(true);
     try {
       const salesData = await fetchSalesData();
-      setData(salesData);
-      const grouped = groupByProduct(salesData);
+      const grouped = groupByCategory(salesData);
       setGroupedData(grouped);
     } finally {
       setLoading(false);
@@ -39,11 +37,10 @@ const UrunRaporu = () => {
   };
 
   const getSortedData = () => {
-    const sortedData = Object.entries(groupedData).map(([urun, degerler]) => ({
-      name: urun.length > 15 ? urun.substring(0, 15) + '...' : urun,
-      fullName: urun,
-      toplamAdet: degerler.toplamAdet || 0,
-      aylikOrtalama: (degerler.toplamAdet || 0) / 12,
+    const sortedData = Object.entries(groupedData).map(([kategori, degerler]) => ({
+      name: kategori,
+      toplamAdet: degerler.toplamAdet,
+      aylikOrtalama: degerler.toplamAdet / 12,
       aylikVeriler: degerler.aylikVeriler || {}
     }));
 
@@ -51,8 +48,8 @@ const UrunRaporu = () => {
       let aValue, bValue;
       
       if (sortColumn === 'name') {
-        aValue = a.fullName.toLowerCase();
-        bValue = b.fullName.toLowerCase();
+        aValue = a.name.toLowerCase();
+        bValue = b.name.toLowerCase();
         return sortDirection === 'asc' 
           ? aValue.localeCompare(bValue, 'tr')
           : bValue.localeCompare(aValue, 'tr');
@@ -72,20 +69,20 @@ const UrunRaporu = () => {
 
   const COLORS = ['#667eea', '#764ba2', '#f093fb', '#4facfe', '#00f2fe', '#43e97b', '#fa709a', '#8b5cf6', '#ec4899'];
   const months = ['Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran', 'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık'];
-  const getMonthlyData = (productName = 'Tümü') => {
+  const getMonthlyData = (categoryName = 'Tümü') => {
     const monthlyTotals = {};
     months.forEach(month => {
       monthlyTotals[month] = 0;
     });
     
-    if (productName === 'Tümü') {
+    if (categoryName === 'Tümü') {
       Object.values(groupedData).forEach(item => {
         months.forEach(month => {
           monthlyTotals[month] += (item.aylikVeriler?.[month] || 0);
         });
       });
     } else {
-      const selectedData = groupedData[productName];
+      const selectedData = groupedData[categoryName];
       if (selectedData && selectedData.aylikVeriler) {
         months.forEach(month => {
           monthlyTotals[month] = selectedData.aylikVeriler[month] || 0;
@@ -100,7 +97,7 @@ const UrunRaporu = () => {
   };
 
   const generalMonthlyData = getMonthlyData('Tümü');
-  const filteredMonthlyData = getMonthlyData(selectedProduct);
+  const filteredMonthlyData = getMonthlyData(selectedCategory);
 
   if (loading) {
     return (
@@ -110,72 +107,7 @@ const UrunRaporu = () => {
     );
   }
 
-  if (data.length === 0 || Object.keys(groupedData).length === 0) {
-    return (
-      <div className="rapor-container">
-        <header className="rapor-header">
-          <div className="rapor-header-content">
-            <div>
-              <Link to="/" className="back-button">← Ana Sayfa</Link>
-              <h1>Ürün Bazlı Satış Raporu</h1>
-            </div>
-            <div className="nav-menu-container">
-              <button 
-                className="nav-menu-button"
-                onClick={() => setShowNavMenu(!showNavMenu)}
-              >
-                ☰ Menü
-              </button>
-              {showNavMenu && (
-                <div className="nav-menu-dropdown">
-                  <Link to="/" className="nav-menu-item" onClick={() => setShowNavMenu(false)}>
-                    🏠 Ana Sayfa
-                  </Link>
-                  <Link to="/stok" className="nav-menu-item" onClick={() => setShowNavMenu(false)}>
-                    📊 Stok Raporu
-                  </Link>
-                  <Link to="/satis/marka" className="nav-menu-item" onClick={() => setShowNavMenu(false)}>
-                    🏷️ Marka Bazlı
-                  </Link>
-                  <Link to="/satis/kategori" className="nav-menu-item" onClick={() => setShowNavMenu(false)}>
-                    📦 Kategori Bazlı
-                  </Link>
-                  <Link to="/satis/urun" className="nav-menu-item active" onClick={() => setShowNavMenu(false)}>
-                    🛍️ Ürün Bazlı
-                  </Link>
-                  <Link to="/satis/musteri" className="nav-menu-item" onClick={() => setShowNavMenu(false)}>
-                    👥 Müşteri Bazlı
-                  </Link>
-                  <Link to="/satis/kanal" className="nav-menu-item" onClick={() => setShowNavMenu(false)}>
-                    🏪 Satış Kanalı
-                  </Link>
-                  <Link to="/alis/marka" className="nav-menu-item" onClick={() => setShowNavMenu(false)}>
-                    🛒 Alış Raporları
-                  </Link>
-                </div>
-              )}
-            </div>
-          </div>
-        </header>
-        <div style={{ padding: '2rem', textAlign: 'center', color: '#e0e0e0' }}>
-          <h2>⚠️ Veri Bulunamadı</h2>
-          <p>Google Sheets'ten veri çekilemedi veya veri formatı uygun değil.</p>
-          <p>Lütfen şunları kontrol edin:</p>
-          <ul style={{ textAlign: 'left', display: 'inline-block', marginTop: '1rem', color: '#b0b0b0' }}>
-            <li>Google Sheets URL'inin doğru olduğundan emin olun</li>
-            <li>Dosyanın "Herkes görüntüleyebilir" olarak paylaşıldığını kontrol edin</li>
-            <li>Tip sütununda "Ürün" yazdığından emin olun</li>
-            <li>Tarayıcı konsolunu (F12) açıp hata mesajlarını kontrol edin</li>
-          </ul>
-          <p style={{ marginTop: '1rem', color: '#b0b0b0' }}>
-            Şu anda {data.length} satır veri bulundu.
-          </p>
-        </div>
-      </div>
-    );
-  }
-
-  const toplamAdet = Object.values(groupedData).reduce((sum, item) => sum + (item.toplamAdet || 0), 0);
+  const toplamAdet = Object.values(groupedData).reduce((sum, item) => sum + item.toplamAdet, 0);
 
   return (
     <div className="rapor-container">
@@ -183,7 +115,7 @@ const UrunRaporu = () => {
         <div className="rapor-header-content">
           <div>
             <Link to="/" className="back-button">← Ana Sayfa</Link>
-            <h1>Ürün Bazlı Satış Raporu</h1>
+            <h1>Kategori Bazlı Alış Raporu</h1>
           </div>
           <div className="nav-menu-container">
             <button 
@@ -201,22 +133,22 @@ const UrunRaporu = () => {
                   📊 Stok Raporu
                 </Link>
                 <Link to="/satis/marka" className="nav-menu-item" onClick={() => setShowNavMenu(false)}>
-                  🏷️ Marka Bazlı
-                </Link>
-                <Link to="/satis/kategori" className="nav-menu-item" onClick={() => setShowNavMenu(false)}>
-                  📦 Kategori Bazlı
-                </Link>
-                <Link to="/satis/urun" className="nav-menu-item active" onClick={() => setShowNavMenu(false)}>
-                  🛍️ Ürün Bazlı
-                </Link>
-                <Link to="/satis/musteri" className="nav-menu-item" onClick={() => setShowNavMenu(false)}>
-                  👥 Müşteri Bazlı
-                </Link>
-                <Link to="/satis/kanal" className="nav-menu-item" onClick={() => setShowNavMenu(false)}>
-                  🏪 Satış Kanalı
+                  💰 Satış Raporları
                 </Link>
                 <Link to="/alis/marka" className="nav-menu-item" onClick={() => setShowNavMenu(false)}>
-                  🛒 Alış Raporları
+                  🏷️ Marka Bazlı
+                </Link>
+                <Link to="/alis/kategori" className="nav-menu-item active" onClick={() => setShowNavMenu(false)}>
+                  📦 Kategori Bazlı
+                </Link>
+                <Link to="/alis/urun" className="nav-menu-item" onClick={() => setShowNavMenu(false)}>
+                  🛍️ Ürün Bazlı
+                </Link>
+                <Link to="/alis/musteri" className="nav-menu-item" onClick={() => setShowNavMenu(false)}>
+                  👥 Müşteri Bazlı
+                </Link>
+                <Link to="/alis/kanal" className="nav-menu-item" onClick={() => setShowNavMenu(false)}>
+                  🏪 Satış Kanalı
                 </Link>
               </div>
             )}
@@ -230,28 +162,28 @@ const UrunRaporu = () => {
           <div className="stat-value">{toplamAdet.toLocaleString('tr-TR')}</div>
         </div>
         <div className="stat-card">
-          <div className="stat-label">Ürün Sayısı</div>
+          <div className="stat-label">Kategori Sayısı</div>
           <div className="stat-value">{Object.keys(groupedData).length}</div>
         </div>
       </div>
 
       <div className="charts-grid">
         <div className="chart-card">
-          <h2>Ürün Bazında Satış Adetleri</h2>
+          <h2>Kategori Bazında Alış Adetleri</h2>
           <ResponsiveContainer width="100%" height={400}>
             <BarChart data={chartData}>
               <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="name" angle={-45} textAnchor="end" height={100} />
+              <XAxis dataKey="name" />
               <YAxis />
               <Tooltip />
               <Legend />
-              <Bar dataKey="toplamAdet" fill="#f093fb" name="Toplam Adet" />
+              <Bar dataKey="toplamAdet" fill="#764ba2" name="Toplam Adet" />
             </BarChart>
           </ResponsiveContainer>
         </div>
 
         <div className="chart-card">
-          <h2>Ürün Dağılımı (Pasta Grafik)</h2>
+          <h2>Kategori Dağılımı (Pasta Grafik)</h2>
           <ResponsiveContainer width="100%" height={400}>
             <PieChart>
               <Pie
@@ -276,7 +208,7 @@ const UrunRaporu = () => {
 
       <div className="charts-grid">
         <div className="chart-card">
-          <h2>Aylık Satış Adetleri (Genel)</h2>
+          <h2>Aylık Alış Adetleri (Genel)</h2>
           <ResponsiveContainer width="100%" height={400}>
             <LineChart data={generalMonthlyData}>
               <CartesianGrid strokeDasharray="3 3" />
@@ -284,17 +216,17 @@ const UrunRaporu = () => {
               <YAxis />
               <Tooltip />
               <Legend />
-              <Line type="monotone" dataKey="adet" stroke="#f093fb" strokeWidth={2} name="Satış Adeti" />
+              <Line type="monotone" dataKey="adet" stroke="#764ba2" strokeWidth={2} name="Alış Adeti" />
             </LineChart>
           </ResponsiveContainer>
         </div>
 
         <div className="chart-card">
-          <h2>Aylık Satış Adetleri (Filtrelenmiş)</h2>
+          <h2>Aylık Alış Adetleri (Filtrelenmiş)</h2>
           <div style={{ marginBottom: '1rem' }}>
             <select 
-              value={selectedProduct} 
-              onChange={(e) => setSelectedProduct(e.target.value)}
+              value={selectedCategory} 
+              onChange={(e) => setSelectedCategory(e.target.value)}
               style={{
                 padding: '0.5rem 1rem',
                 fontSize: '1rem',
@@ -306,9 +238,9 @@ const UrunRaporu = () => {
                 minWidth: '200px'
               }}
             >
-              <option value="Tümü">Tüm Ürünler</option>
+              <option value="Tümü">Tüm Kategoriler</option>
               {chartData.map((item) => (
-                <option key={item.fullName} value={item.fullName}>{item.fullName}</option>
+                <option key={item.name} value={item.name}>{item.name}</option>
               ))}
             </select>
           </div>
@@ -319,14 +251,14 @@ const UrunRaporu = () => {
               <YAxis />
               <Tooltip />
               <Legend />
-              <Line type="monotone" dataKey="adet" stroke="#fa709a" strokeWidth={2} name="Satış Adeti" />
+              <Line type="monotone" dataKey="adet" stroke="#f093fb" strokeWidth={2} name="Alış Adeti" />
             </LineChart>
           </ResponsiveContainer>
         </div>
       </div>
 
       <div className="table-card">
-        <h2>Detaylı Ürün İstatistikleri</h2>
+        <h2>Detaylı Kategori İstatistikleri</h2>
         <table className="data-table">
           <thead>
             <tr>
@@ -334,7 +266,7 @@ const UrunRaporu = () => {
                 onClick={() => handleSort('name')}
                 style={{ cursor: 'pointer', userSelect: 'none' }}
               >
-                Ürün {sortColumn === 'name' && (sortDirection === 'asc' ? '↑' : '↓')}
+                Kategori {sortColumn === 'name' && (sortDirection === 'asc' ? '↑' : '↓')}
               </th>
               <th 
                 onClick={() => handleSort('toplamAdet')}
@@ -352,9 +284,9 @@ const UrunRaporu = () => {
           </thead>
           <tbody>
             {chartData.map((item) => (
-              <tr key={item.fullName}>
-                <td><strong>{item.fullName}</strong></td>
-                <td>{item.toplamAdet ? item.toplamAdet.toLocaleString('tr-TR') : '0'}</td>
+              <tr key={item.name}>
+                <td><strong>{item.name}</strong></td>
+                <td>{item.toplamAdet.toLocaleString('tr-TR')}</td>
                 <td>{item.aylikOrtalama.toFixed(2)}</td>
               </tr>
             ))}
@@ -365,4 +297,5 @@ const UrunRaporu = () => {
   );
 };
 
-export default UrunRaporu;
+export default KategoriAlis;
+

@@ -219,6 +219,350 @@
   color: #667eea;
 }
 
+.stok-periods-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  gap: 1.2rem;
+}
+
+.stok-period-card {
+  background: #2d2d2d;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+  border: 1px solid #3a3a3a;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  aspect-ratio: 1;
+  min-height: 0;
+}
+
+.stok-period-card:hover {
+  border-color: #667eea;
+  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.3);
+}
+
+.stok-period-header {
+  padding: 0.75rem 1rem;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+  transition: all 0.3s ease;
+}
+
+.stok-period-header:hover {
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.2) 0%, rgba(118, 75, 162, 0.2) 100%);
+}
+
+.stok-period-title {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex: 1;
+}
+
+.stok-period-icon {
+  font-size: 1.2rem;
+}
+
+.stok-period-title h2 {
+  margin: 0;
+  color: #e0e0e0;
+  font-size: 1rem;
+}
+
+.stok-period-count {
+  color: #b0b0b0;
+  font-size: 0.8rem;
+  margin-left: 0.5rem;
+}
+
+.stok-period-toggle {
+  color: #667eea;
+  font-size: 1rem;
+  font-weight: bold;
+  transition: transform 0.3s ease;
+}
+
+.stok-period-content {
+  padding: 0;
+  animation: slideDown 0.3s ease;
+  flex: 1;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    max-height: 0;
+  }
+  to {
+    opacity: 1;
+    max-height: 1000px;
+  }
+}
+
+.stok-period-content .table-card {
+  margin: 0;
+  border-radius: 0;
+  border: none;
+  border-top: 1px solid #3a3a3a;
+  box-shadow: none;
+  flex: 1;
+  overflow: auto;
+  min-height: 0;
+}
+
+.stok-header-compact h1 {
+  font-size: 1.5rem;
+}
+
+.stok-menu-button {
+  font-size: 0.9rem;
+  padding: 0.5rem 1rem;
+}
+
+.stok-menu-dropdown {
+  font-size: 0.9rem;
+}
+
+.stok-menu-dropdown .nav-menu-item {
+  padding: 0.6rem 1rem;
+}
+
+.stok-period-preview {
+  padding: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  border-top: 1px solid #3a3a3a;
+  flex: 1;
+  min-height: 0;
+}
+
+.stok-chart-preview {
+  flex: 1;
+  width: 100%;
+  min-height: 0;
+}
+
+.stok-detail-button {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  padding: 0.4rem 0.8rem;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  align-self: flex-end;
+  font-size: 0.75rem;
+  white-space: nowrap;
+}
+
+.stok-detail-button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 5px 15px rgba(102, 126, 234, 0.6);
+}
+
+.stok-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  padding: 2rem;
+}
+
+.stok-modal-content {
+  background: #2d2d2d;
+  border-radius: 12px;
+  max-width: 900px;
+  width: 100%;
+  max-height: 90vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.7);
+  border: 1px solid #3a3a3a;
+}
+
+.stok-modal-header {
+  padding: 1.5rem 2rem;
+  border-bottom: 1px solid #3a3a3a;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+}
+
+.stok-modal-header h2 {
+  margin: 0;
+  color: #e0e0e0;
+  font-size: 1.5rem;
+}
+
+.stok-modal-close {
+  background: transparent;
+  border: none;
+  color: #e0e0e0;
+  font-size: 2rem;
+  cursor: pointer;
+  padding: 0;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+}
+
+.stok-modal-close:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+}
+
+.stok-modal-body {
+  padding: 2rem;
+  overflow-y: auto;
+  flex: 1;
+}
+
+.sortable-header {
+  user-select: none;
+  transition: background-color 0.2s ease;
+}
+
+.sortable-header:hover {
+  background-color: rgba(102, 126, 234, 0.1);
+}
+
+.skt-categories-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  padding-bottom: 4rem;
+}
+
+.skt-category-card {
+  background: #2d2d2d;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+  border: 1px solid #3a3a3a;
+  overflow: hidden;
+}
+
+.skt-category-header {
+  padding: 1.5rem 2rem;
+  border-left: 4px solid;
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.skt-category-title {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex: 1;
+}
+
+.skt-category-icon {
+  font-size: 2rem;
+}
+
+.skt-category-title h2 {
+  margin: 0;
+  color: #e0e0e0;
+  font-size: 1.5rem;
+}
+
+.skt-category-count {
+  color: #b0b0b0;
+  font-size: 0.9rem;
+  margin-left: 0.5rem;
+}
+
+.skt-category-stats {
+  display: flex;
+  gap: 2rem;
+}
+
+.skt-stat-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.skt-stat-label {
+  color: #b0b0b0;
+  font-size: 0.85rem;
+}
+
+.skt-stat-value {
+  color: #e0e0e0;
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+
+.skt-empty-message {
+  padding: 3rem 2rem;
+  text-align: center;
+  color: #b0b0b0;
+  font-size: 1rem;
+}
+
+@media (max-width: 768px) {
+  .skt-categories-container {
+    padding: 0 1rem;
+  }
+
+  .skt-category-header {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 1rem 1.5rem;
+  }
+
+  .skt-category-stats {
+    flex-direction: column;
+    gap: 1rem;
+    width: 100%;
+  }
+
+  .skt-category-title h2 {
+    font-size: 1.2rem;
+  }
+}
+
+@media (max-width: 1024px) {
+  .stok-periods-container {
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+  }
+}
+
 @media (max-width: 768px) {
   .charts-grid {
     grid-template-columns: 1fr;
@@ -237,5 +581,44 @@
 
   .data-table {
     min-width: 600px;
+  }
+
+  .stok-periods-container {
+    padding: 0 1rem;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+  }
+
+  .stok-period-card {
+    aspect-ratio: auto;
+    min-height: auto;
+  }
+
+  .stok-period-header {
+    padding: 0.75rem 1rem;
+  }
+
+  .stok-period-title h2 {
+    font-size: 1rem;
+  }
+
+  .stok-modal-overlay {
+    padding: 1rem;
+  }
+
+  .stok-modal-content {
+    max-height: 95vh;
+  }
+
+  .stok-modal-header {
+    padding: 1rem 1.5rem;
+  }
+
+  .stok-modal-body {
+    padding: 1rem;
+  }
+
+  .stok-chart-preview {
+    height: 100px;
   }
 }

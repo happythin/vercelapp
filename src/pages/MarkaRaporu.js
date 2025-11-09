@@ -130,20 +130,26 @@ const MarkaRaporu = () => {
                   <Link to="/" className="nav-menu-item" onClick={() => setShowNavMenu(false)}>
                     🏠 Ana Sayfa
                   </Link>
-                  <Link to="/marka" className="nav-menu-item active" onClick={() => setShowNavMenu(false)}>
+                  <Link to="/stok" className="nav-menu-item" onClick={() => setShowNavMenu(false)}>
+                    📊 Stok Raporu
+                  </Link>
+                  <Link to="/satis/marka" className="nav-menu-item active" onClick={() => setShowNavMenu(false)}>
                     🏷️ Marka Bazlı
                   </Link>
-                  <Link to="/kategori" className="nav-menu-item" onClick={() => setShowNavMenu(false)}>
+                  <Link to="/satis/kategori" className="nav-menu-item" onClick={() => setShowNavMenu(false)}>
                     📦 Kategori Bazlı
                   </Link>
-                  <Link to="/urun" className="nav-menu-item" onClick={() => setShowNavMenu(false)}>
+                  <Link to="/satis/urun" className="nav-menu-item" onClick={() => setShowNavMenu(false)}>
                     🛍️ Ürün Bazlı
                   </Link>
-                  <Link to="/musteri" className="nav-menu-item" onClick={() => setShowNavMenu(false)}>
+                  <Link to="/satis/musteri" className="nav-menu-item" onClick={() => setShowNavMenu(false)}>
                     👥 Müşteri Bazlı
                   </Link>
-                  <Link to="/kanal" className="nav-menu-item" onClick={() => setShowNavMenu(false)}>
+                  <Link to="/satis/kanal" className="nav-menu-item" onClick={() => setShowNavMenu(false)}>
                     🏪 Satış Kanalı
+                  </Link>
+                  <Link to="/alis/marka" className="nav-menu-item" onClick={() => setShowNavMenu(false)}>
+                    🛒 Alış Raporları
                   </Link>
                 </div>
               )}
@@ -190,20 +196,26 @@ const MarkaRaporu = () => {
                 <Link to="/" className="nav-menu-item" onClick={() => setShowNavMenu(false)}>
                   🏠 Ana Sayfa
                 </Link>
-                <Link to="/marka" className="nav-menu-item active" onClick={() => setShowNavMenu(false)}>
+                <Link to="/stok" className="nav-menu-item" onClick={() => setShowNavMenu(false)}>
+                  📊 Stok Raporu
+                </Link>
+                <Link to="/satis/marka" className="nav-menu-item active" onClick={() => setShowNavMenu(false)}>
                   🏷️ Marka Bazlı
                 </Link>
-                <Link to="/kategori" className="nav-menu-item" onClick={() => setShowNavMenu(false)}>
+                <Link to="/satis/kategori" className="nav-menu-item" onClick={() => setShowNavMenu(false)}>
                   📦 Kategori Bazlı
                 </Link>
-                <Link to="/urun" className="nav-menu-item" onClick={() => setShowNavMenu(false)}>
+                <Link to="/satis/urun" className="nav-menu-item" onClick={() => setShowNavMenu(false)}>
                   🛍️ Ürün Bazlı
                 </Link>
-                <Link to="/musteri" className="nav-menu-item" onClick={() => setShowNavMenu(false)}>
+                <Link to="/satis/musteri" className="nav-menu-item" onClick={() => setShowNavMenu(false)}>
                   👥 Müşteri Bazlı
                 </Link>
-                <Link to="/kanal" className="nav-menu-item" onClick={() => setShowNavMenu(false)}>
+                <Link to="/satis/kanal" className="nav-menu-item" onClick={() => setShowNavMenu(false)}>
                   🏪 Satış Kanalı
+                </Link>
+                <Link to="/alis/marka" className="nav-menu-item" onClick={() => setShowNavMenu(false)}>
+                  🛒 Alış Raporları
                 </Link>
               </div>
             )}

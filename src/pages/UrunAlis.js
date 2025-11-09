@@ -4,7 +4,7 @@ import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Responsive
 import { fetchSalesData, groupByProduct } from '../services/sheetsService';
 import './RaporSayfasi.css';
 
-const UrunRaporu = () => {
+const UrunAlis = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [groupedData, setGroupedData] = useState({});
@@ -117,7 +117,7 @@ const UrunRaporu = () => {
           <div className="rapor-header-content">
             <div>
               <Link to="/" className="back-button">← Ana Sayfa</Link>
-              <h1>Ürün Bazlı Satış Raporu</h1>
+              <h1>Ürün Bazlı Alış Raporu</h1>
             </div>
             <div className="nav-menu-container">
               <button 
@@ -134,20 +134,20 @@ const UrunRaporu = () => {
                   <Link to="/stok" className="nav-menu-item" onClick={() => setShowNavMenu(false)}>
                     📊 Stok Raporu
                   </Link>
-                  <Link to="/satis/marka" className="nav-menu-item" onClick={() => setShowNavMenu(false)}>
+                  <Link to="/alis/marka" className="nav-menu-item" onClick={() => setShowNavMenu(false)}>
                     🏷️ Marka Bazlı
                   </Link>
-                  <Link to="/satis/kategori" className="nav-menu-item" onClick={() => setShowNavMenu(false)}>
+                  <Link to="/alis/kategori" className="nav-menu-item" onClick={() => setShowNavMenu(false)}>
                     📦 Kategori Bazlı
                   </Link>
-                  <Link to="/satis/urun" className="nav-menu-item active" onClick={() => setShowNavMenu(false)}>
+                  <Link to="/alis/urun" className="nav-menu-item active" onClick={() => setShowNavMenu(false)}>
                     🛍️ Ürün Bazlı
                   </Link>
-                  <Link to="/satis/musteri" className="nav-menu-item" onClick={() => setShowNavMenu(false)}>
+                  <Link to="/alis/musteri" className="nav-menu-item" onClick={() => setShowNavMenu(false)}>
                     👥 Müşteri Bazlı
                   </Link>
-                  <Link to="/satis/kanal" className="nav-menu-item" onClick={() => setShowNavMenu(false)}>
-                    🏪 Satış Kanalı
+                  <Link to="/alis/kanal" className="nav-menu-item" onClick={() => setShowNavMenu(false)}>
+                    🏪 Alış Kanalı
                   </Link>
                   <Link to="/alis/marka" className="nav-menu-item" onClick={() => setShowNavMenu(false)}>
                     🛒 Alış Raporları
@@ -183,7 +183,7 @@ const UrunRaporu = () => {
         <div className="rapor-header-content">
           <div>
             <Link to="/" className="back-button">← Ana Sayfa</Link>
-            <h1>Ürün Bazlı Satış Raporu</h1>
+            <h1>Ürün Bazlı Alış Raporu</h1>
           </div>
           <div className="nav-menu-container">
             <button 
@@ -201,22 +201,22 @@ const UrunRaporu = () => {
                   📊 Stok Raporu
                 </Link>
                 <Link to="/satis/marka" className="nav-menu-item" onClick={() => setShowNavMenu(false)}>
-                  🏷️ Marka Bazlı
-                </Link>
-                <Link to="/satis/kategori" className="nav-menu-item" onClick={() => setShowNavMenu(false)}>
-                  📦 Kategori Bazlı
-                </Link>
-                <Link to="/satis/urun" className="nav-menu-item active" onClick={() => setShowNavMenu(false)}>
-                  🛍️ Ürün Bazlı
-                </Link>
-                <Link to="/satis/musteri" className="nav-menu-item" onClick={() => setShowNavMenu(false)}>
-                  👥 Müşteri Bazlı
-                </Link>
-                <Link to="/satis/kanal" className="nav-menu-item" onClick={() => setShowNavMenu(false)}>
-                  🏪 Satış Kanalı
+                  💰 Satış Raporları
                 </Link>
                 <Link to="/alis/marka" className="nav-menu-item" onClick={() => setShowNavMenu(false)}>
-                  🛒 Alış Raporları
+                  🏷️ Marka Bazlı
+                </Link>
+                <Link to="/alis/kategori" className="nav-menu-item" onClick={() => setShowNavMenu(false)}>
+                  📦 Kategori Bazlı
+                </Link>
+                <Link to="/alis/urun" className="nav-menu-item active" onClick={() => setShowNavMenu(false)}>
+                  🛍️ Ürün Bazlı
+                </Link>
+                <Link to="/alis/musteri" className="nav-menu-item" onClick={() => setShowNavMenu(false)}>
+                  👥 Müşteri Bazlı
+                </Link>
+                <Link to="/alis/kanal" className="nav-menu-item" onClick={() => setShowNavMenu(false)}>
+                  🏪 Satış Kanalı
                 </Link>
               </div>
             )}
@@ -237,7 +237,7 @@ const UrunRaporu = () => {
 
       <div className="charts-grid">
         <div className="chart-card">
-          <h2>Ürün Bazında Satış Adetleri</h2>
+          <h2>Ürün Bazında Alış Adetleri</h2>
           <ResponsiveContainer width="100%" height={400}>
             <BarChart data={chartData}>
               <CartesianGrid strokeDasharray="3 3" />
@@ -276,7 +276,7 @@ const UrunRaporu = () => {
 
       <div className="charts-grid">
         <div className="chart-card">
-          <h2>Aylık Satış Adetleri (Genel)</h2>
+          <h2>Aylık Alış Adetleri (Genel)</h2>
           <ResponsiveContainer width="100%" height={400}>
             <LineChart data={generalMonthlyData}>
               <CartesianGrid strokeDasharray="3 3" />
@@ -284,13 +284,13 @@ const UrunRaporu = () => {
               <YAxis />
               <Tooltip />
               <Legend />
-              <Line type="monotone" dataKey="adet" stroke="#f093fb" strokeWidth={2} name="Satış Adeti" />
+              <Line type="monotone" dataKey="adet" stroke="#f093fb" strokeWidth={2} name="Alış Adeti" />
             </LineChart>
           </ResponsiveContainer>
         </div>
 
         <div className="chart-card">
-          <h2>Aylık Satış Adetleri (Filtrelenmiş)</h2>
+          <h2>Aylık Alış Adetleri (Filtrelenmiş)</h2>
           <div style={{ marginBottom: '1rem' }}>
             <select 
               value={selectedProduct} 
@@ -319,7 +319,7 @@ const UrunRaporu = () => {
               <YAxis />
               <Tooltip />
               <Legend />
-              <Line type="monotone" dataKey="adet" stroke="#fa709a" strokeWidth={2} name="Satış Adeti" />
+              <Line type="monotone" dataKey="adet" stroke="#fa709a" strokeWidth={2} name="Alış Adeti" />
             </LineChart>
           </ResponsiveContainer>
         </div>
@@ -365,4 +365,4 @@ const UrunRaporu = () => {
   );
 };
 
-export default UrunRaporu;
+export default UrunAlis;

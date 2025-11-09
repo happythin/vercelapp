@@ -240,6 +240,8 @@ const processRow = (item) => {
     }
   });
   
+  const skt = getColumnValue(item, ['Skt', 'SKT', 'skt', 'Son Kullanma', 'Son Kullanma Tarihi', 'SKT Tarihi']);
+  
   return {
     name: name.trim(),
     tip: tip.trim(),
@@ -249,7 +251,8 @@ const processRow = (item) => {
     hedef: hedef,
     tahminiKapanis: tahminiKapanis,
     yuzde: yuzde,
-    aylikVeriler: aylikVeriler
+    aylikVeriler: aylikVeriler,
+    skt: skt ? skt.trim() : null
   };
 };
 

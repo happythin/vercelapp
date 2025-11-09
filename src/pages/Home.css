@@ -49,80 +49,172 @@
   color: white;
 }
 
-.hero {
-  padding: 4rem 2rem;
-  text-align: center;
-  color: white;
-}
-
-.hero-content h2 {
-  font-size: 3rem;
-  margin: 0 0 1rem 0;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-}
-
-.hero-content p {
-  font-size: 1.2rem;
-  opacity: 0.9;
-}
-
-.raporlar-grid {
-  max-width: 1200px;
+.ana-kategoriler {
+  max-width: 1400px;
   margin: 0 auto;
-  padding: 2rem;
+  padding: 3rem 2rem;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 2rem;
   padding-bottom: 4rem;
 }
 
-.rapor-card {
+.ana-kategori-card {
   background: #2d2d2d;
   border-radius: 16px;
-  padding: 2rem;
+  padding: 1.5rem;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
-  text-align: center;
   border: 1px solid #3a3a3a;
+  display: flex;
+  flex-direction: column;
 }
 
-.rapor-card:hover {
-  transform: translateY(-5px);
+.ana-kategori-card:hover {
+  transform: translateY(-8px);
   box-shadow: 0 15px 40px rgba(102, 126, 234, 0.3);
   border-color: #667eea;
 }
 
-.rapor-icon {
+.ana-kategori-icon {
   font-size: 3rem;
   margin-bottom: 1rem;
+  text-align: center;
 }
 
-.rapor-card h3 {
+.ana-kategori-card h2 {
   color: #e0e0e0;
   margin: 0 0 1rem 0;
   font-size: 1.5rem;
+  text-align: center;
 }
 
-.rapor-card p {
-  color: #b0b0b0;
-  margin: 0 0 1.5rem 0;
-  line-height: 1.6;
-}
-
-.rapor-button {
+.ana-kategori-button {
   display: inline-block;
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: white;
   text-decoration: none;
-  padding: 0.75rem 2rem;
+  padding: 0.75rem 1.5rem;
   border-radius: 8px;
   font-weight: 600;
   transition: all 0.3s ease;
+  text-align: center;
+  margin-bottom: 0;
+  font-size: 0.9rem;
 }
 
-.rapor-button:hover {
+.ana-kategori-button:hover {
   transform: scale(1.05);
   box-shadow: 0 5px 15px rgba(102, 126, 234, 0.6);
+}
+
+.stok-buttons-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 0;
+  margin-top: 1rem;
+}
+
+.stok-skt-button {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+}
+
+.stok-skt-button:hover {
+  box-shadow: 0 5px 15px rgba(16, 185, 129, 0.6);
+}
+
+.alt-kategoriler {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-top: auto;
+}
+
+.alt-kategori-link {
+  display: block;
+  background: rgba(102, 126, 234, 0.1);
+  color: #e0e0e0;
+  text-decoration: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 8px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  border: 1px solid rgba(102, 126, 234, 0.2);
+  text-align: center;
+  font-size: 0.9rem;
+}
+
+.alt-kategori-link:hover {
+  background: rgba(102, 126, 234, 0.2);
+  border-color: #667eea;
+  transform: translateX(5px);
+}
+
+.stok-preview-card {
+  position: relative;
+}
+
+.stok-preview-content {
+  margin: 1rem 0;
+  padding: 0.75rem;
+  background: rgba(102, 126, 234, 0.05);
+  border-radius: 10px;
+  border: 1px solid rgba(102, 126, 234, 0.2);
+}
+
+.stok-preview-title {
+  color: #667eea;
+  font-size: 0.8rem;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+  text-align: center;
+}
+
+.stok-preview-chart {
+  margin-bottom: 0.75rem;
+  height: 120px;
+}
+
+.stok-preview-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.stok-preview-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.5rem;
+  background: rgba(102, 126, 234, 0.1);
+  border-radius: 6px;
+  font-size: 0.85rem;
+}
+
+.stok-preview-rank {
+  color: #667eea;
+  font-weight: 700;
+  min-width: 30px;
+}
+
+.stok-preview-name {
+  flex: 1;
+  color: #e0e0e0;
+  font-weight: 500;
+}
+
+.stok-preview-count {
+  color: #b0b0b0;
+  font-weight: 600;
+}
+
+.stok-preview-loading,
+.stok-preview-empty {
+  text-align: center;
+  color: #b0b0b0;
+  padding: 2rem 0;
+  font-size: 0.9rem;
 }
 
 @media (max-width: 768px) {
@@ -140,7 +232,36 @@
     font-size: 2rem;
   }
 
-  .raporlar-grid {
+  .ana-kategoriler {
     grid-template-columns: 1fr;
+  }
+
+  .ana-kategori-card {
+    padding: 1.25rem;
+  }
+
+  .ana-kategori-icon {
+    font-size: 2.5rem;
+  }
+
+  .ana-kategori-card h2 {
+    font-size: 1.3rem;
+  }
+
+  .stok-preview-chart {
+    height: 120px;
+  }
+
+  .stok-preview-content {
+    padding: 0.75rem;
+  }
+
+  .stok-buttons-container {
+    gap: 0.5rem;
+  }
+
+  .ana-kategori-button {
+    padding: 0.875rem 1.5rem;
+    font-size: 0.9rem;
   }
 }

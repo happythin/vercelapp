@@ -20,11 +20,9 @@ const Home = () => {
       
       const now = new Date();
       const currentMonth = now.getMonth();
-      const currentYear = now.getFullYear();
       const months = ['Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran', 
                       'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık'];
       const lastMonth = currentMonth === 0 ? 11 : currentMonth - 1;
-      const lastMonthYear = currentMonth === 0 ? currentYear - 1 : currentYear;
       const lastMonthName = months[lastMonth];
 
       const monthlyData = Object.entries(grouped).map(([urun, degerler]) => {

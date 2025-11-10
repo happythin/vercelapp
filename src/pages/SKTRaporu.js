@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { PieChart, Pie, Cell, ResponsiveContainer, Legend, Tooltip, BarChart, Bar, XAxis, YAxis, CartesianGrid } from 'recharts';
 import Header from '../components/Header';
 import { fetchSalesData, groupByProduct } from '../services/sheetsService';
@@ -13,22 +13,6 @@ const SKTRaporu = () => {
     altiAy: [],
     onIkiAy: []
   });
-
-  useEffect(() => {
-    loadData();
-  }, []);
-
-  const loadData = async () => {
-    setLoading(true);
-    try {
-      const salesData = await fetchSalesData();
-      const grouped = groupByProduct(salesData);
-      setGroupedData(grouped);
-      categorizeBySKT(grouped);
-    } finally {
-      setLoading(false);
-    }
-  };
 
   const parseDate = (dateString) => {
     if (!dateString || dateString.trim() === '') return null;
@@ -74,7 +58,7 @@ const SKTRaporu = () => {
     return date;
   };
 
-  const categorizeBySKT = (grouped) => {
+  const categorizeBySKT = useCallback((grouped) => {
     const now = new Date();
     now.setHours(0, 0, 0, 0);
     
@@ -124,8 +108,34 @@ const SKTRaporu = () => {
       }
     });
     
-    setSktCategories(categories);
-  };
+    categories.gecmis.sort((a, b) => b.toplamAdet - a.toplamAdet);
+    categories.ucAy.sort((a, b) => b.toplamAdet - a.toplamAdet);
+    categories.altiAy.sort((a, b) => b.toplamAdet - a.toplamAdet);
+    categories.onIkiAy.sort((a, b) => b.toplamAdet - a.toplamAdet);
+    
+    setSktCategories({
+      gecmis: categories.gecmis,
+      ucAy: categories.ucAy,
+      altiAy: categories.altiAy,
+      onIkiAy: categories.onIkiAy
+    });
+  }, []);
+
+  const loadData = useCallback(async () => {
+    setLoading(true);
+    try {
+      const salesData = await fetchSalesData();
+      const grouped = groupByProduct(salesData);
+      setGroupedData(grouped);
+      categorizeBySKT(grouped);
+    } finally {
+      setLoading(false);
+    }
+  }, [categorizeBySKT]);
+
+  useEffect(() => {
+    loadData();
+  }, [loadData]);
 
   const getCategoryStats = (category) => {
     const totalAdet = category.reduce((sum, item) => sum + item.toplamAdet, 0);

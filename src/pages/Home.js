@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import Header from '../components/Header';
@@ -23,11 +23,7 @@ const Home = () => {
     alis: false
   });
 
-  useEffect(() => {
-    loadTopProductsData();
-  }, []);
-
-  const loadTopProductsData = async () => {
+  const loadTopProductsData = useCallback(async () => {
     setLoading(true);
     try {
       const data = await fetchSalesData();
@@ -49,7 +45,11 @@ const Home = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
+
+  useEffect(() => {
+    loadTopProductsData();
+  }, [loadTopProductsData]);
 
   const calculateChartData = (products, allData) => {
     const now = new Date();

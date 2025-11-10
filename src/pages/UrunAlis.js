@@ -11,7 +11,6 @@ const UrunAlis = () => {
   const [selectedProduct, setSelectedProduct] = useState('Tümü');
   const [sortColumn, setSortColumn] = useState('toplamAdet');
   const [sortDirection, setSortDirection] = useState('desc');
-  const [showNavMenu, setShowNavMenu] = useState(false);
 
   useEffect(() => {
     loadData();

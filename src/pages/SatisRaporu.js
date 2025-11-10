@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, PieChart, Pie, Cell, LineChart, Line } from 'recharts';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, LineChart, Line } from 'recharts';
 import Header from '../components/Header';
 import { fetchSalesData, groupByBrand, groupByCategory, groupByProduct, groupByCustomer, groupByChannel } from '../services/sheetsService';
 import './Dashboard.css';
@@ -16,11 +16,7 @@ const SatisRaporu = () => {
     kanal: null
   });
 
-  useEffect(() => {
-    loadPreviewData();
-  }, []);
-
-  const loadPreviewData = async () => {
+  const loadPreviewData = useCallback(async () => {
     setLoading(true);
     try {
       const salesData = await fetchSalesData();
@@ -43,7 +39,11 @@ const SatisRaporu = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
+
+  useEffect(() => {
+    loadPreviewData();
+  }, [loadPreviewData]);
 
   const preparePreviewData = (groupedData, type) => {
     const sorted = Object.entries(groupedData)

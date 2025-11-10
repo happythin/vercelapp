@@ -1,0 +1,218 @@
+.dashboard-header {
+  background: rgba(45, 45, 45, 0.95);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.5);
+  padding: 1rem 2rem;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.header-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.logo-link {
+  text-decoration: none;
+  cursor: pointer;
+  transition: opacity 0.3s ease;
+}
+
+.logo-link:hover {
+  opacity: 0.8;
+}
+
+.logo {
+  font-size: 1.5rem;
+  margin: 0;
+  color: #667eea;
+  font-weight: 700;
+}
+
+.page-title {
+  font-size: 1.2rem;
+  margin: 0;
+  color: #e0e0e0;
+  font-weight: 600;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
+.date-display {
+  color: #e0e0e0;
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.exchange-rates {
+  display: flex;
+  gap: 1rem;
+}
+
+.exchange-rate {
+  color: #b0b0b0;
+  font-size: 0.9rem;
+}
+
+.header-bottom {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.breadcrumb {
+  color: #b0b0b0;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+  max-width: 100%;
+}
+
+.breadcrumb-item {
+  display: inline-block;
+  white-space: nowrap;
+}
+
+.breadcrumb-link {
+  color: #667eea;
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.breadcrumb-link:hover {
+  color: #764ba2;
+  background: rgba(102, 126, 234, 0.1);
+}
+
+.breadcrumb-item.current {
+  color: #e0e0e0;
+  font-weight: 500;
+  padding: 0.25rem 0.5rem;
+}
+
+.breadcrumb-separator {
+  color: #667eea;
+  margin: 0 0.25rem;
+  flex-shrink: 0;
+}
+
+.export-buttons {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.export-btn {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.excel-btn {
+  background: #10b981;
+  color: white;
+}
+
+.excel-btn:hover {
+  background: #059669;
+  transform: translateY(-2px);
+}
+
+.pdf-btn {
+  background: #ef4444;
+  color: white;
+}
+
+.pdf-btn:hover {
+  background: #dc2626;
+  transform: translateY(-2px);
+}
+
+@media (max-width: 768px) {
+  .dashboard-header {
+    padding: 1rem;
+  }
+
+  .header-top {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .header-right {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .header-bottom {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .breadcrumb {
+    font-size: 0.8rem;
+    gap: 0.15rem;
+  }
+
+  .breadcrumb-link,
+  .breadcrumb-item.current {
+    padding: 0.2rem 0.4rem;
+    font-size: 0.85rem;
+  }
+
+  .breadcrumb-separator {
+    margin: 0 0.15rem;
+    font-size: 0.75rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .breadcrumb {
+    font-size: 0.75rem;
+  }
+
+  .breadcrumb-link,
+  .breadcrumb-item.current {
+    padding: 0.15rem 0.3rem;
+    font-size: 0.8rem;
+  }
+
+  .breadcrumb-separator {
+    margin: 0 0.1rem;
+    font-size: 0.7rem;
+  }
+
+  .export-buttons {
+    flex-wrap: wrap;
+  }
+
+  .export-btn {
+    font-size: 0.75rem;
+    padding: 0.4rem 0.8rem;
+  }
+}
+

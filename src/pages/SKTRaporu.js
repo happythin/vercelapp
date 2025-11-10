@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
 import { PieChart, Pie, Cell, ResponsiveContainer, Legend, Tooltip, BarChart, Bar, XAxis, YAxis, CartesianGrid } from 'recharts';
+import Header from '../components/Header';
 import { fetchSalesData, groupByProduct } from '../services/sheetsService';
-import './RaporSayfasi.css';
+import './Dashboard.css';
 
 const SKTRaporu = () => {
   const [loading, setLoading] = useState(true);
   const [groupedData, setGroupedData] = useState({});
-  const [showNavMenu, setShowNavMenu] = useState(false);
   const [sktCategories, setSktCategories] = useState({
     gecmis: [],
     ucAy: [],
@@ -17,7 +16,6 @@ const SKTRaporu = () => {
 
   useEffect(() => {
     loadData();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const loadData = async () => {
@@ -160,8 +158,11 @@ const SKTRaporu = () => {
 
   if (loading) {
     return (
-      <div className="rapor-container">
-        <div className="loading">Yükleniyor...</div>
+      <div className="dashboard-page">
+        <Header pageTitle="STOK RAPORU (SKT)" breadcrumb="Anasayfa > Stok > SKT >" />
+        <div className="dashboard-content">
+          <div style={{ textAlign: 'center', color: '#e0e0e0', padding: '2rem' }}>Yükleniyor...</div>
+        </div>
       </div>
     );
   }
@@ -201,182 +202,204 @@ const SKTRaporu = () => {
   ];
 
   return (
-    <div className="rapor-container">
-      <header className="rapor-header">
-        <div className="rapor-header-content">
-          <div>
-            <Link to="/stok" className="back-button">← Stok Raporu</Link>
-            <h1>SKT Raporu</h1>
+    <div className="dashboard-page">
+      <Header pageTitle="STOK RAPORU (SKT)" breadcrumb="Anasayfa > Stok > SKT >" />
+
+      <div className="dashboard-content">
+        <div className="dashboard-section">
+          <div className="section-header">
+            <h2 className="section-title">DEPO STOK DURUMU</h2>
+            <span className="section-subtitle">-</span>
           </div>
-          <div className="nav-menu-container">
-            <button 
-              className="nav-menu-button"
-              onClick={() => setShowNavMenu(!showNavMenu)}
-            >
-              ☰ Menü
-            </button>
-            {showNavMenu && (
-              <div className="nav-menu-dropdown">
-                <Link to="/" className="nav-menu-item" onClick={() => setShowNavMenu(false)}>
-                  🏠 Ana Sayfa
-                </Link>
-                <Link to="/stok" className="nav-menu-item" onClick={() => setShowNavMenu(false)}>
-                  📊 Stok Raporu
-                </Link>
-                <Link to="/stok/skt" className="nav-menu-item active" onClick={() => setShowNavMenu(false)}>
-                  📅 SKT Raporu
-                </Link>
-                <Link to="/satis/marka" className="nav-menu-item" onClick={() => setShowNavMenu(false)}>
-                  💰 Satış Raporları
-                </Link>
-                <Link to="/alis/marka" className="nav-menu-item" onClick={() => setShowNavMenu(false)}>
-                  🛒 Alış Raporları
-                </Link>
+          
+          <div className="period-grid">
+            <div style={{ 
+              background: 'rgba(102, 126, 234, 0.05)', 
+              padding: '1rem', 
+              borderRadius: '8px',
+              textAlign: 'center',
+              color: '#e0e0e0'
+            }}>
+              <div style={{ fontSize: '0.9rem', marginBottom: '0.5rem' }}>Toplam Stok</div>
+              <div style={{ fontSize: '1.5rem', fontWeight: '700' }}>{totalStock.toLocaleString('tr-TR')}</div>
+            </div>
+            <div style={{ 
+              background: 'rgba(239, 68, 68, 0.1)', 
+              padding: '1rem', 
+              borderRadius: '8px',
+              textAlign: 'center',
+              color: '#ef4444'
+            }}>
+              <div style={{ fontSize: '0.9rem', marginBottom: '0.5rem' }}>SKT Geçmiş</div>
+              <div style={{ fontSize: '1.5rem', fontWeight: '700' }}>
+                {getCategoryStats(sktCategories.gecmis).totalAdet.toLocaleString('tr-TR')}
               </div>
-            )}
+            </div>
+            <div style={{ 
+              background: 'rgba(245, 158, 11, 0.1)', 
+              padding: '1rem', 
+              borderRadius: '8px',
+              textAlign: 'center',
+              color: '#f59e0b'
+            }}>
+              <div style={{ fontSize: '0.9rem', marginBottom: '0.5rem' }}>SKT 3 Ay Kaldı</div>
+              <div style={{ fontSize: '1.5rem', fontWeight: '700' }}>
+                {getCategoryStats(sktCategories.ucAy).totalAdet.toLocaleString('tr-TR')}
+              </div>
+            </div>
+            <div style={{ 
+              background: 'rgba(59, 130, 246, 0.1)', 
+              padding: '1rem', 
+              borderRadius: '8px',
+              textAlign: 'center',
+              color: '#3b82f6'
+            }}>
+              <div style={{ fontSize: '0.9rem', marginBottom: '0.5rem' }}>SKT 6 Ay Kaldı</div>
+              <div style={{ fontSize: '1.5rem', fontWeight: '700' }}>
+                {getCategoryStats(sktCategories.altiAy).totalAdet.toLocaleString('tr-TR')}
+              </div>
+            </div>
+            <div style={{ 
+              background: 'rgba(16, 185, 129, 0.1)', 
+              padding: '1rem', 
+              borderRadius: '8px',
+              textAlign: 'center',
+              color: '#10b981'
+            }}>
+              <div style={{ fontSize: '0.9rem', marginBottom: '0.5rem' }}>SKT 12+ Ay Kaldı</div>
+              <div style={{ fontSize: '1.5rem', fontWeight: '700' }}>
+                {getCategoryStats(sktCategories.onIkiAy).totalAdet.toLocaleString('tr-TR')}
+              </div>
+            </div>
           </div>
-        </div>
-      </header>
-
-      <div className="stats-grid">
-        <div className="stat-card">
-          <div className="stat-label">Toplam Stok</div>
-          <div className="stat-value">{totalStock.toLocaleString('tr-TR')}</div>
-        </div>
-        <div className="stat-card">
-          <div className="stat-label">SKT Geçmiş</div>
-          <div className="stat-value" style={{ color: '#ef4444' }}>
-            {getCategoryStats(sktCategories.gecmis).totalAdet.toLocaleString('tr-TR')}
-          </div>
-        </div>
-        <div className="stat-card">
-          <div className="stat-label">SKT 3 Ay Kaldı</div>
-          <div className="stat-value" style={{ color: '#f59e0b' }}>
-            {getCategoryStats(sktCategories.ucAy).totalAdet.toLocaleString('tr-TR')}
-          </div>
-        </div>
-        <div className="stat-card">
-          <div className="stat-label">SKT 6 Ay Kaldı</div>
-          <div className="stat-value" style={{ color: '#3b82f6' }}>
-            {getCategoryStats(sktCategories.altiAy).totalAdet.toLocaleString('tr-TR')}
-          </div>
-        </div>
-        <div className="stat-card">
-          <div className="stat-label">SKT 12+ Ay Kaldı</div>
-          <div className="stat-value" style={{ color: '#10b981' }}>
-            {getCategoryStats(sktCategories.onIkiAy).totalAdet.toLocaleString('tr-TR')}
-          </div>
-        </div>
-      </div>
-
-      <div className="charts-grid">
-        <div className="chart-card">
-          <h2>SKT Dağılımı (Pasta Grafik)</h2>
-          <ResponsiveContainer width="100%" height={400}>
-            <PieChart>
-              <Pie
-                data={chartData}
-                cx="50%"
-                cy="50%"
-                labelLine={false}
-                label={({ name, percentage }) => `${name}: ${percentage}%`}
-                outerRadius={120}
-                fill="#8884d8"
-                dataKey="value"
-              >
-                {chartData.map((entry, index) => (
-                  <Cell key={`cell-${index}`} fill={entry.color} />
-                ))}
-              </Pie>
-              <Tooltip formatter={(value) => value.toLocaleString('tr-TR')} />
-              <Legend />
-            </PieChart>
-          </ResponsiveContainer>
         </div>
 
-        <div className="chart-card">
-          <h2>SKT Dağılımı (Bar Grafik)</h2>
-          <ResponsiveContainer width="100%" height={400}>
-            <BarChart data={chartData}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="name" angle={-45} textAnchor="end" height={100} />
-              <YAxis />
-              <Tooltip formatter={(value) => value.toLocaleString('tr-TR')} />
-              <Legend />
-              <Bar dataKey="value">
-                {chartData.map((entry, index) => (
-                  <Cell key={`cell-${index}`} fill={entry.color} />
-                ))}
-              </Bar>
-            </BarChart>
-          </ResponsiveContainer>
-        </div>
-      </div>
+        <div className="dashboard-section">
+          <h3 className="subsection-title">SKT Dağılımı</h3>
+          <div className="period-grid">
+            <div className="chart-container">
+              <h4 style={{ color: '#e0e0e0', marginBottom: '1rem' }}>Pasta Grafik</h4>
+              <ResponsiveContainer width="100%" height={300}>
+                <PieChart>
+                  <Pie
+                    data={chartData}
+                    cx="50%"
+                    cy="50%"
+                    labelLine={false}
+                    label={({ name, percentage }) => `${name}: ${percentage}%`}
+                    outerRadius={100}
+                    fill="#8884d8"
+                    dataKey="value"
+                  >
+                    {chartData.map((entry, index) => (
+                      <Cell key={`cell-${index}`} fill={entry.color} />
+                    ))}
+                  </Pie>
+                  <Tooltip formatter={(value) => value.toLocaleString('tr-TR')} />
+                  <Legend />
+                </PieChart>
+              </ResponsiveContainer>
+            </div>
 
-      <div className="skt-categories-container">
+            <div className="chart-container">
+              <h4 style={{ color: '#e0e0e0', marginBottom: '1rem' }}>Bar Grafik</h4>
+              <ResponsiveContainer width="100%" height={300}>
+                <BarChart data={chartData}>
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis dataKey="name" angle={-45} textAnchor="end" height={100} />
+                  <YAxis />
+                  <Tooltip formatter={(value) => value.toLocaleString('tr-TR')} />
+                  <Legend />
+                  <Bar dataKey="value">
+                    {chartData.map((entry, index) => (
+                      <Cell key={`cell-${index}`} fill={entry.color} />
+                    ))}
+                  </Bar>
+                </BarChart>
+              </ResponsiveContainer>
+            </div>
+          </div>
+        </div>
+
+        <div className="dashboard-section">
+          <h3 className="subsection-title">SKT Kategorileri</h3>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
         {categories.map(category => {
           const stats = getCategoryStats(category.data);
           
           return (
-            <div key={category.key} className="skt-category-card">
-              <div className="skt-category-header" style={{ borderLeftColor: category.color }}>
-                <div className="skt-category-title">
-                  <span className="skt-category-icon">{category.icon}</span>
-                  <h2>{category.title}</h2>
-                  <span className="skt-category-count">({stats.productCount} ürün)</span>
+            <div key={category.key} style={{ 
+              background: '#2d2d2d', 
+              borderRadius: '12px', 
+              padding: '1.5rem',
+              border: `2px solid ${category.color}`,
+              borderLeft: `6px solid ${category.color}`
+            }}>
+              <div style={{ 
+                display: 'flex', 
+                justifyContent: 'space-between', 
+                alignItems: 'center',
+                marginBottom: '1rem',
+                flexWrap: 'wrap',
+                gap: '1rem'
+              }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                  <span style={{ fontSize: '1.5rem' }}>{category.icon}</span>
+                  <h4 style={{ color: '#e0e0e0', margin: 0 }}>{category.title}</h4>
+                  <span style={{ color: '#b0b0b0', fontSize: '0.9rem' }}>({stats.productCount} ürün)</span>
                 </div>
-                <div className="skt-category-stats">
-                  <div className="skt-stat-item">
-                    <span className="skt-stat-label">Toplam Adet:</span>
-                    <span className="skt-stat-value">{stats.totalAdet.toLocaleString('tr-TR')}</span>
+                <div style={{ display: 'flex', gap: '1.5rem', flexWrap: 'wrap' }}>
+                  <div>
+                    <span style={{ color: '#b0b0b0', fontSize: '0.85rem' }}>Toplam Adet: </span>
+                    <span style={{ color: '#e0e0e0', fontWeight: '600' }}>{stats.totalAdet.toLocaleString('tr-TR')}</span>
                   </div>
-                  <div className="skt-stat-item">
-                    <span className="skt-stat-label">Toplam Stoka Oranı:</span>
-                    <span className="skt-stat-value">{stats.percentage}%</span>
+                  <div>
+                    <span style={{ color: '#b0b0b0', fontSize: '0.85rem' }}>Oran: </span>
+                    <span style={{ color: '#e0e0e0', fontWeight: '600' }}>{stats.percentage}%</span>
                   </div>
                 </div>
               </div>
               
               {category.data.length > 0 ? (
-                <div className="table-card">
-                  <table className="data-table">
-                    <thead>
-                      <tr>
-                        <th>Sıra</th>
-                        <th>Ürün Adı</th>
-                        <th>SKT</th>
-                        <th>Adet</th>
-                        <th>Oran (%)</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {category.data
-                        .sort((a, b) => a.sktDate - b.sktDate)
-                        .map((item, index) => {
-                          const itemPercentage = totalStock > 0 
-                            ? ((item.toplamAdet / totalStock) * 100).toFixed(2) 
-                            : 0;
-                          return (
-                            <tr key={item.name}>
-                              <td><strong>#{index + 1}</strong></td>
-                              <td><strong>{item.name}</strong></td>
-                              <td>{item.skt}</td>
-                              <td>{item.toplamAdet.toLocaleString('tr-TR')}</td>
-                              <td>{itemPercentage}%</td>
-                            </tr>
-                          );
-                        })}
-                    </tbody>
-                  </table>
-                </div>
+                <table className="data-table">
+                  <thead>
+                    <tr>
+                      <th>Sıra</th>
+                      <th>Ürün Adı</th>
+                      <th>SKT</th>
+                      <th>Adet</th>
+                      <th>Oran (%)</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {category.data
+                      .sort((a, b) => a.sktDate - b.sktDate)
+                      .map((item, index) => {
+                        const itemPercentage = totalStock > 0 
+                          ? ((item.toplamAdet / totalStock) * 100).toFixed(2) 
+                          : 0;
+                        return (
+                          <tr key={item.name}>
+                            <td><strong>#{index + 1}</strong></td>
+                            <td><strong>{item.name}</strong></td>
+                            <td>{item.skt}</td>
+                            <td>{item.toplamAdet.toLocaleString('tr-TR')}</td>
+                            <td>{itemPercentage}%</td>
+                          </tr>
+                        );
+                      })}
+                  </tbody>
+                </table>
               ) : (
-                <div className="skt-empty-message">
+                <div style={{ textAlign: 'center', color: '#b0b0b0', padding: '2rem' }}>
                   Bu kategoride ürün bulunmamaktadır.
                 </div>
               )}
             </div>
           );
         })}
+          </div>
+        </div>
       </div>
     </div>
   );

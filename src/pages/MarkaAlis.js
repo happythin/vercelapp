@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, PieChart, Pie, Cell, LineChart, Line } from 'recharts';
+import Header from '../components/Header';
 import { fetchSalesData, groupByBrand } from '../services/sheetsService';
-import './RaporSayfasi.css';
+import './Dashboard.css';
 
 const MarkaAlis = () => {
   const [data, setData] = useState([]);
@@ -103,72 +103,26 @@ const MarkaAlis = () => {
 
   if (loading) {
     return (
-      <div className="rapor-container">
-        <div className="loading">Yükleniyor...</div>
+      <div className="dashboard-page">
+        <Header pageTitle="ALIŞ RAPORU (Marka)" breadcrumb="Anasayfa > Alış > Marka >" />
+        <div className="dashboard-content">
+          <div style={{ textAlign: 'center', color: '#e0e0e0', padding: '2rem' }}>Yükleniyor...</div>
+        </div>
       </div>
     );
   }
 
   if (data.length === 0 || Object.keys(groupedData).length === 0) {
     return (
-      <div className="rapor-container">
-        <header className="rapor-header">
-          <div className="rapor-header-content">
-            <div>
-              <Link to="/" className="back-button">← Ana Sayfa</Link>
-              <h1>Marka Bazlı Alış Raporu</h1>
-            </div>
-            <div className="nav-menu-container">
-              <button 
-                className="nav-menu-button"
-                onClick={() => setShowNavMenu(!showNavMenu)}
-              >
-                ☰ Menü
-              </button>
-              {showNavMenu && (
-                <div className="nav-menu-dropdown">
-                  <Link to="/" className="nav-menu-item" onClick={() => setShowNavMenu(false)}>
-                    🏠 Ana Sayfa
-                  </Link>
-                  <Link to="/stok" className="nav-menu-item" onClick={() => setShowNavMenu(false)}>
-                    📊 Stok Raporu
-                  </Link>
-                  <Link to="/satis/marka" className="nav-menu-item" onClick={() => setShowNavMenu(false)}>
-                    💰 Satış Raporları
-                  </Link>
-                  <Link to="/alis/marka" className="nav-menu-item active" onClick={() => setShowNavMenu(false)}>
-                    🏷️ Marka Bazlı
-                  </Link>
-                  <Link to="/alis/kategori" className="nav-menu-item" onClick={() => setShowNavMenu(false)}>
-                    📦 Kategori Bazlı
-                  </Link>
-                  <Link to="/alis/urun" className="nav-menu-item" onClick={() => setShowNavMenu(false)}>
-                    🛍️ Ürün Bazlı
-                  </Link>
-                  <Link to="/alis/musteri" className="nav-menu-item" onClick={() => setShowNavMenu(false)}>
-                    👥 Müşteri Bazlı
-                  </Link>
-                  <Link to="/alis/kanal" className="nav-menu-item" onClick={() => setShowNavMenu(false)}>
-                    🏪 Satış Kanalı
-                  </Link>
-                </div>
-              )}
+      <div className="dashboard-page">
+        <Header pageTitle="ALIŞ RAPORU (Marka)" breadcrumb="Anasayfa > Alış > Marka >" />
+        <div className="dashboard-content">
+          <div className="dashboard-section">
+            <div style={{ textAlign: 'center', color: '#e0e0e0', padding: '2rem' }}>
+              <h2>⚠️ Veri Bulunamadı</h2>
+              <p>Google Sheets'ten veri çekilemedi veya veri formatı uygun değil.</p>
             </div>
           </div>
-        </header>
-        <div style={{ padding: '2rem', textAlign: 'center', color: '#e0e0e0' }}>
-          <h2>⚠️ Veri Bulunamadı</h2>
-          <p>Google Sheets'ten veri çekilemedi veya veri formatı uygun değil.</p>
-          <p>Lütfen şunları kontrol edin:</p>
-          <ul style={{ textAlign: 'left', display: 'inline-block', marginTop: '1rem', color: '#b0b0b0' }}>
-            <li>Google Sheets URL'inin doğru olduğundan emin olun</li>
-            <li>Dosyanın "Herkes görüntüleyebilir" olarak paylaşıldığını kontrol edin</li>
-            <li>Tarayıcı konsolunu (F12) açıp hata mesajlarını kontrol edin</li>
-            <li>CSV formatında veri olduğundan emin olun</li>
-          </ul>
-          <p style={{ marginTop: '1rem', color: '#b0b0b0' }}>
-            Şu anda {data.length} satır veri bulundu.
-          </p>
         </div>
       </div>
     );
@@ -177,188 +131,172 @@ const MarkaAlis = () => {
   const toplamAdet = Object.values(groupedData).reduce((sum, item) => sum + item.toplamAdet, 0);
 
   return (
-    <div className="rapor-container">
-      <header className="rapor-header">
-        <div className="rapor-header-content">
-          <div>
-            <Link to="/" className="back-button">← Ana Sayfa</Link>
-            <h1>Marka Bazlı Alış Raporu</h1>
+    <div className="dashboard-page">
+      <Header pageTitle="ALIŞ RAPORU (Marka)" breadcrumb="Anasayfa > Alış > Marka >" />
+      
+      <div className="dashboard-content">
+        <div className="dashboard-section">
+          <div className="section-header">
+            <h2 className="section-title">DEPO STOK DURUMU</h2>
+            <span className="section-subtitle">-</span>
           </div>
-          <div className="nav-menu-container">
-            <button 
-              className="nav-menu-button"
-              onClick={() => setShowNavMenu(!showNavMenu)}
-            >
-              ☰ Menü
-            </button>
-            {showNavMenu && (
-              <div className="nav-menu-dropdown">
-                <Link to="/" className="nav-menu-item" onClick={() => setShowNavMenu(false)}>
-                  🏠 Ana Sayfa
-                </Link>
-                <Link to="/stok" className="nav-menu-item" onClick={() => setShowNavMenu(false)}>
-                  📊 Stok Raporu
-                </Link>
-                <Link to="/satis/marka" className="nav-menu-item" onClick={() => setShowNavMenu(false)}>
-                  💰 Satış Raporları
-                </Link>
-                <Link to="/alis/marka" className="nav-menu-item active" onClick={() => setShowNavMenu(false)}>
-                  🏷️ Marka Bazlı
-                </Link>
-                <Link to="/alis/kategori" className="nav-menu-item" onClick={() => setShowNavMenu(false)}>
-                  📦 Kategori Bazlı
-                </Link>
-                <Link to="/alis/urun" className="nav-menu-item" onClick={() => setShowNavMenu(false)}>
-                  🛍️ Ürün Bazlı
-                </Link>
-                <Link to="/alis/musteri" className="nav-menu-item" onClick={() => setShowNavMenu(false)}>
-                  👥 Müşteri Bazlı
-                </Link>
-                <Link to="/alis/kanal" className="nav-menu-item" onClick={() => setShowNavMenu(false)}>
-                  🏪 Satış Kanalı
-                </Link>
+          
+          <div className="period-grid">
+            <div style={{ 
+              background: 'rgba(102, 126, 234, 0.05)', 
+              padding: '1rem', 
+              borderRadius: '8px',
+              textAlign: 'center',
+              color: '#e0e0e0'
+            }}>
+              <div style={{ fontSize: '0.9rem', marginBottom: '0.5rem' }}>Toplam Adet</div>
+              <div style={{ fontSize: '1.5rem', fontWeight: '700' }}>{toplamAdet.toLocaleString('tr-TR')}</div>
+            </div>
+            <div style={{ 
+              background: 'rgba(102, 126, 234, 0.05)', 
+              padding: '1rem', 
+              borderRadius: '8px',
+              textAlign: 'center',
+              color: '#e0e0e0'
+            }}>
+              <div style={{ fontSize: '0.9rem', marginBottom: '0.5rem' }}>Marka Sayısı</div>
+              <div style={{ fontSize: '1.5rem', fontWeight: '700' }}>{Object.keys(groupedData).length}</div>
+            </div>
+          </div>
+        </div>
+
+        <div className="dashboard-section">
+          <h3 className="subsection-title">Marka Bazında Alış Adetleri</h3>
+          <div className="period-grid">
+            <div className="chart-container">
+              <h4 style={{ color: '#e0e0e0', marginBottom: '1rem' }}>Bar Grafik</h4>
+              <ResponsiveContainer width="100%" height={300}>
+                <BarChart data={chartData}>
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis dataKey="name" angle={-45} textAnchor="end" height={80} />
+                  <YAxis />
+                  <Tooltip />
+                  <Legend />
+                  <Bar dataKey="toplamAdet" fill="#667eea" name="Toplam Adet" />
+                </BarChart>
+              </ResponsiveContainer>
+            </div>
+
+            <div className="chart-container">
+              <h4 style={{ color: '#e0e0e0', marginBottom: '1rem' }}>Pasta Grafik</h4>
+              <ResponsiveContainer width="100%" height={300}>
+                <PieChart>
+                  <Pie
+                    data={chartData}
+                    cx="50%"
+                    cy="50%"
+                    labelLine={false}
+                    label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}
+                    outerRadius={100}
+                    fill="#8884d8"
+                    dataKey="toplamAdet"
+                  >
+                    {chartData.map((entry, index) => (
+                      <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                    ))}
+                  </Pie>
+                  <Tooltip />
+                </PieChart>
+              </ResponsiveContainer>
+            </div>
+          </div>
+        </div>
+
+        <div className="dashboard-section">
+          <h3 className="subsection-title">Aylık Alış Adetleri</h3>
+          <div className="period-grid">
+            <div className="chart-container">
+              <h4 style={{ color: '#e0e0e0', marginBottom: '1rem' }}>Genel</h4>
+              <ResponsiveContainer width="100%" height={300}>
+                <LineChart data={generalMonthlyData}>
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis dataKey="ay" />
+                  <YAxis />
+                  <Tooltip />
+                  <Legend />
+                  <Line type="monotone" dataKey="adet" stroke="#667eea" strokeWidth={2} name="Alış Adeti" />
+                </LineChart>
+              </ResponsiveContainer>
+            </div>
+
+            <div className="chart-container">
+              <h4 style={{ color: '#e0e0e0', marginBottom: '1rem' }}>Filtrelenmiş</h4>
+              <div style={{ marginBottom: '1rem' }}>
+                <select 
+                  value={selectedBrand} 
+                  onChange={(e) => setSelectedBrand(e.target.value)}
+                  style={{
+                    padding: '0.5rem 1rem',
+                    fontSize: '0.9rem',
+                    borderRadius: '8px',
+                    border: '1px solid #3a3a3a',
+                    backgroundColor: '#2d2d2d',
+                    color: '#e0e0e0',
+                    cursor: 'pointer',
+                    minWidth: '200px'
+                  }}
+                >
+                  <option value="Tümü">Tüm Markalar</option>
+                  {chartData.map((item) => (
+                    <option key={item.name} value={item.name}>{item.name}</option>
+                  ))}
+                </select>
               </div>
-            )}
+              <ResponsiveContainer width="100%" height={300}>
+                <LineChart data={filteredMonthlyData}>
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis dataKey="ay" />
+                  <YAxis />
+                  <Tooltip />
+                  <Legend />
+                  <Line type="monotone" dataKey="adet" stroke="#764ba2" strokeWidth={2} name="Alış Adeti" />
+                </LineChart>
+              </ResponsiveContainer>
+            </div>
           </div>
         </div>
-      </header>
 
-      <div className="stats-grid">
-        <div className="stat-card">
-          <div className="stat-label">Toplam Adet</div>
-          <div className="stat-value">{toplamAdet.toLocaleString('tr-TR')}</div>
-        </div>
-        <div className="stat-card">
-          <div className="stat-label">Marka Sayısı</div>
-          <div className="stat-value">{Object.keys(groupedData).length}</div>
-        </div>
-      </div>
-
-      <div className="charts-grid">
-        <div className="chart-card">
-          <h2>Marka Bazında Alış Adetleri</h2>
-          <ResponsiveContainer width="100%" height={400}>
-            <BarChart data={chartData}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="name" />
-              <YAxis />
-              <Tooltip />
-              <Legend />
-              <Bar dataKey="toplamAdet" fill="#667eea" name="Toplam Adet" />
-            </BarChart>
-          </ResponsiveContainer>
-        </div>
-
-        <div className="chart-card">
-          <h2>Marka Dağılımı (Pasta Grafik)</h2>
-          <ResponsiveContainer width="100%" height={400}>
-            <PieChart>
-              <Pie
-                data={chartData}
-                cx="50%"
-                cy="50%"
-                labelLine={false}
-                label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}
-                outerRadius={120}
-                fill="#8884d8"
-                dataKey="toplamAdet"
-              >
-                {chartData.map((entry, index) => (
-                  <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                ))}
-              </Pie>
-              <Tooltip />
-            </PieChart>
-          </ResponsiveContainer>
-        </div>
-      </div>
-
-      <div className="charts-grid">
-        <div className="chart-card">
-          <h2>Aylık Alış Adetleri (Genel)</h2>
-          <ResponsiveContainer width="100%" height={400}>
-            <LineChart data={generalMonthlyData}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="ay" />
-              <YAxis />
-              <Tooltip />
-              <Legend />
-              <Line type="monotone" dataKey="adet" stroke="#667eea" strokeWidth={2} name="Alış Adeti" />
-            </LineChart>
-          </ResponsiveContainer>
-        </div>
-
-        <div className="chart-card">
-          <h2>Aylık Alış Adetleri (Filtrelenmiş)</h2>
-          <div style={{ marginBottom: '1rem' }}>
-            <select 
-              value={selectedBrand} 
-              onChange={(e) => setSelectedBrand(e.target.value)}
-              style={{
-                padding: '0.5rem 1rem',
-                fontSize: '1rem',
-                borderRadius: '8px',
-                border: '1px solid #3a3a3a',
-                backgroundColor: '#1a1a1a',
-                color: '#e0e0e0',
-                cursor: 'pointer',
-                minWidth: '200px'
-              }}
-            >
-              <option value="Tümü">Tüm Markalar</option>
-              {chartData.map((item) => (
-                <option key={item.name} value={item.name}>{item.name}</option>
-              ))}
-            </select>
-          </div>
-          <ResponsiveContainer width="100%" height={400}>
-            <LineChart data={filteredMonthlyData}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="ay" />
-              <YAxis />
-              <Tooltip />
-              <Legend />
-              <Line type="monotone" dataKey="adet" stroke="#764ba2" strokeWidth={2} name="Alış Adeti" />
-            </LineChart>
-          </ResponsiveContainer>
-        </div>
-      </div>
-
-      <div className="table-card">
-        <h2>Detaylı Marka İstatistikleri</h2>
-        <table className="data-table">
-          <thead>
-            <tr>
-              <th 
-                onClick={() => handleSort('name')}
-                style={{ cursor: 'pointer', userSelect: 'none' }}
-              >
-                Marka {sortColumn === 'name' && (sortDirection === 'asc' ? '↑' : '↓')}
-              </th>
-              <th 
-                onClick={() => handleSort('toplamAdet')}
-                style={{ cursor: 'pointer', userSelect: 'none' }}
-              >
-                Toplam Adet {sortColumn === 'toplamAdet' && (sortDirection === 'asc' ? '↑' : '↓')}
-              </th>
-              <th 
-                onClick={() => handleSort('aylikOrtalama')}
-                style={{ cursor: 'pointer', userSelect: 'none' }}
-              >
-                Aylık Ortalama {sortColumn === 'aylikOrtalama' && (sortDirection === 'asc' ? '↑' : '↓')}
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {chartData.map((item) => (
-              <tr key={item.name}>
-                <td><strong>{item.name}</strong></td>
-                <td>{item.toplamAdet ? item.toplamAdet.toLocaleString('tr-TR') : '0'}</td>
-                <td>{item.aylikOrtalama.toFixed(2)}</td>
+        <div className="dashboard-section">
+          <h3 className="subsection-title">Detaylı Marka İstatistikleri</h3>
+          <table className="data-table">
+            <thead>
+              <tr>
+                <th 
+                  onClick={() => handleSort('name')}
+                  style={{ cursor: 'pointer' }}
+                >
+                  Marka {sortColumn === 'name' && (sortDirection === 'asc' ? '↑' : '↓')}
+                </th>
+                <th 
+                  onClick={() => handleSort('toplamAdet')}
+                  style={{ cursor: 'pointer' }}
+                >
+                  Toplam Adet {sortColumn === 'toplamAdet' && (sortDirection === 'asc' ? '↑' : '↓')}
+                </th>
+                <th 
+                  onClick={() => handleSort('aylikOrtalama')}
+                  style={{ cursor: 'pointer' }}
+                >
+                  Aylık Ortalama {sortColumn === 'aylikOrtalama' && (sortDirection === 'asc' ? '↑' : '↓')}
+                </th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {chartData.map((item) => (
+                <tr key={item.name}>
+                  <td><strong>{item.name}</strong></td>
+                  <td>{item.toplamAdet ? item.toplamAdet.toLocaleString('tr-TR') : '0'}</td>
+                  <td>{item.aylikOrtalama.toFixed(2)}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   );

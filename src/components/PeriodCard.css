@@ -1,0 +1,82 @@
+.period-card {
+  background: rgba(102, 126, 234, 0.05);
+  border: 1px solid rgba(102, 126, 234, 0.2);
+  border-radius: 10px;
+  padding: 1rem;
+  transition: all 0.3s ease;
+  flex: 1;
+  min-width: 150px;
+}
+
+.period-card.clickable {
+  cursor: pointer;
+}
+
+.period-card.clickable:hover {
+  background: rgba(102, 126, 234, 0.1);
+  border-color: #667eea;
+  transform: translateY(-2px);
+}
+
+.period-card-header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  margin-bottom: 0.75rem;
+}
+
+.period-card-title {
+  color: #b0b0b0;
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.period-card-subtitle {
+  color: #667eea;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.period-card-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.period-card-value {
+  color: #e0e0e0;
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.period-card-change {
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.period-card-change.positive {
+  color: #10b981;
+}
+
+.period-card-change.negative {
+  color: #ef4444;
+}
+
+.period-card-hint {
+  margin-top: 0.5rem;
+  font-size: 0.7rem;
+  color: #666;
+  font-style: italic;
+}
+
+@media (max-width: 768px) {
+  .period-card {
+    min-width: 120px;
+  }
+
+  .period-card-value {
+    font-size: 1.2rem;
+  }
+}
+

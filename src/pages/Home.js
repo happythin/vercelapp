@@ -23,6 +23,95 @@ const Home = () => {
     alis: false
   });
 
+  const parseDate = useCallback((dateString) => {
+    if (!dateString || dateString.trim() === '') return null;
+    
+    const cleaned = dateString.trim();
+    let date = null;
+    
+    const formats = [
+      /^(\d{1,2})\.(\d{1,2})\.(\d{4})$/,
+      /^(\d{1,2})\/(\d{1,2})\/(\d{4})$/,
+      /^(\d{4})-(\d{1,2})-(\d{1,2})$/,
+      /^(\d{1,2})\.(\d{1,2})\.(\d{2})$/,
+      /^(\d{1,2})\/(\d{1,2})\/(\d{2})$/
+    ];
+    
+    for (const format of formats) {
+      const match = cleaned.match(format);
+      if (match) {
+        if (format === formats[0] || format === formats[1]) {
+          const day = parseInt(match[1], 10);
+          const month = parseInt(match[2], 10) - 1;
+          const year = parseInt(match[3], 10);
+          date = new Date(year, month, day);
+        } else if (format === formats[2]) {
+          const year = parseInt(match[1], 10);
+          const month = parseInt(match[2], 10) - 1;
+          const day = parseInt(match[3], 10);
+          date = new Date(year, month, day);
+        } else if (format === formats[3] || format === formats[4]) {
+          const day = parseInt(match[1], 10);
+          const month = parseInt(match[2], 10) - 1;
+          const year = 2000 + parseInt(match[3], 10);
+          date = new Date(year, month, day);
+        }
+        break;
+      }
+    }
+    
+    if (!date || isNaN(date.getTime())) {
+      return null;
+    }
+    
+    return date;
+  }, []);
+
+  const calculateCriticalSKTData = useCallback((grouped) => {
+    const now = new Date();
+    now.setHours(0, 0, 0, 0);
+    
+    const threeMonthsLater = new Date(now);
+    threeMonthsLater.setMonth(now.getMonth() + 3);
+    
+    const gecmis = [];
+    const ucAy = [];
+    
+    Object.entries(grouped).forEach(([urun, degerler]) => {
+      const sktString = degerler.skt;
+      if (!sktString) return;
+      
+      const sktDate = parseDate(sktString);
+      if (!sktDate) return;
+      
+      sktDate.setHours(0, 0, 0, 0);
+      
+      const toplamAdet = degerler.toplamAdet || 0;
+      if (toplamAdet === 0) return;
+      
+      const productInfo = {
+        name: urun.length > 20 ? urun.substring(0, 20) + '...' : urun,
+        fullName: urun,
+        skt: sktString,
+        toplamAdet: toplamAdet
+      };
+      
+      if (sktDate < now) {
+        gecmis.push(productInfo);
+      } else if (sktDate >= now && sktDate <= threeMonthsLater) {
+        ucAy.push(productInfo);
+      }
+    });
+    
+    gecmis.sort((a, b) => b.toplamAdet - a.toplamAdet);
+    ucAy.sort((a, b) => b.toplamAdet - a.toplamAdet);
+    
+    setCriticalSKTData({
+      gecmis: gecmis.slice(0, 10),
+      ucAy: ucAy.slice(0, 10)
+    });
+  }, [parseDate]);
+
   const loadTopProductsData = useCallback(async () => {
     setLoading(true);
     try {
@@ -45,7 +134,7 @@ const Home = () => {
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [calculateCriticalSKTData]);
 
   useEffect(() => {
     loadTopProductsData();
@@ -95,95 +184,6 @@ const Home = () => {
       daily: dailyData,
       weekly: weeklyData,
       monthly: monthlyData
-    });
-  };
-
-  const parseDate = (dateString) => {
-    if (!dateString || dateString.trim() === '') return null;
-    
-    const cleaned = dateString.trim();
-    let date = null;
-    
-    const formats = [
-      /^(\d{1,2})\.(\d{1,2})\.(\d{4})$/,  // DD.MM.YYYY
-      /^(\d{1,2})\/(\d{1,2})\/(\d{4})$/,  // DD/MM/YYYY
-      /^(\d{4})-(\d{1,2})-(\d{1,2})$/,     // YYYY-MM-DD
-      /^(\d{1,2})\.(\d{1,2})\.(\d{2})$/,   // DD.MM.YY
-      /^(\d{1,2})\/(\d{1,2})\/(\d{2})$/    // DD/MM/YY
-    ];
-    
-    for (const format of formats) {
-      const match = cleaned.match(format);
-      if (match) {
-        if (format === formats[0] || format === formats[1]) {
-          const day = parseInt(match[1], 10);
-          const month = parseInt(match[2], 10) - 1;
-          const year = parseInt(match[3], 10);
-          date = new Date(year, month, day);
-        } else if (format === formats[2]) {
-          const year = parseInt(match[1], 10);
-          const month = parseInt(match[2], 10) - 1;
-          const day = parseInt(match[3], 10);
-          date = new Date(year, month, day);
-        } else if (format === formats[3] || format === formats[4]) {
-          const day = parseInt(match[1], 10);
-          const month = parseInt(match[2], 10) - 1;
-          const year = 2000 + parseInt(match[3], 10);
-          date = new Date(year, month, day);
-        }
-        break;
-      }
-    }
-    
-    if (!date || isNaN(date.getTime())) {
-      return null;
-    }
-    
-    return date;
-  };
-
-  const calculateCriticalSKTData = (grouped) => {
-    const now = new Date();
-    now.setHours(0, 0, 0, 0);
-    
-    const threeMonthsLater = new Date(now);
-    threeMonthsLater.setMonth(now.getMonth() + 3);
-    
-    const gecmis = [];
-    const ucAy = [];
-    
-    Object.entries(grouped).forEach(([urun, degerler]) => {
-      const sktString = degerler.skt;
-      if (!sktString) return;
-      
-      const sktDate = parseDate(sktString);
-      if (!sktDate) return;
-      
-      sktDate.setHours(0, 0, 0, 0);
-      
-      const toplamAdet = degerler.toplamAdet || 0;
-      if (toplamAdet === 0) return;
-      
-      const productInfo = {
-        name: urun.length > 20 ? urun.substring(0, 20) + '...' : urun,
-        fullName: urun,
-        skt: sktString,
-        toplamAdet: toplamAdet
-      };
-      
-      if (sktDate < now) {
-        gecmis.push(productInfo);
-      } else if (sktDate >= now && sktDate <= threeMonthsLater) {
-        ucAy.push(productInfo);
-      }
-    });
-    
-    gecmis.sort((a, b) => b.toplamAdet - a.toplamAdet);
-    ucAy.sort((a, b) => b.toplamAdet - a.toplamAdet);
-    
-    setCriticalSKTData({
-      gecmis: gecmis.slice(0, 10),
-      ucAy: ucAy.slice(0, 10)
     });
   };
 
